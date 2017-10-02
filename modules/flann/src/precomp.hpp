@@ -1,6 +1,6 @@
 #ifndef OPENCV_FLANN_PRECOMP_HPP
 #define OPENCV_FLANN_PRECOMP_HPP
-
+#pragma warning(disable:4702) // LTCG c4702: unreachable code
 #include <cstdio>
 #include <cstdarg>
 #include <sstream>

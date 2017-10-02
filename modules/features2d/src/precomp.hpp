@@ -42,7 +42,7 @@
 
 #ifndef __OPENCV_PRECOMP_H__
 #define __OPENCV_PRECOMP_H__
-
+#pragma warning(disable:4702) // LTCG c4702: unreachable code
 #include "opencv2/features2d.hpp"
 #include "opencv2/imgproc.hpp"
 
