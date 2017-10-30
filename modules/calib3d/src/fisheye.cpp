@@ -1221,7 +1221,7 @@ double cv::fisheye::stereoCalibrate(InputArrayOfArrays objectPoints, InputArrayO
 
 double cv::fisheye::stereoCalibrateWithErrors(InputArrayOfArrays objectPoints, InputArrayOfArrays imagePoints1, InputArrayOfArrays imagePoints2,
                                     InputOutputArray K1, InputOutputArray D1, InputOutputArray K2, InputOutputArray D2, Size imageSize,
-                                    OutputArray R, OutputArray T, std::vector<double>& stdDevs, int flags, TermCriteria criteria)
+                                    OutputArray R, OutputArray T, std::vector<double>& stdDevs, std::vector<double>& rmsPerStereoPair, int flags, TermCriteria criteria)
 {
     CV_INSTRUMENT_REGION()
 
@@ -1436,12 +1436,22 @@ double cv::fisheye::stereoCalibrateWithErrors(InputArrayOfArrays objectPoints, I
     for(int errIndx = 0; errIndx < errors.rows; errIndx++) {
         stdDevs.push_back(errors.at<double>(errIndx,0));
     }
-
+    
+    rmsPerStereoPair.resize(n_images,0.);
+    int points_per_image_pair = n_points * 2;
+    int pair_index = 0;    
     double rms = 0;
     const Vec2d* ptr_e = e.ptr<Vec2d>();
     for (size_t i = 0; i < e.total() / 2; i++)
     {
         rms += ptr_e[i][0] * ptr_e[i][0] + ptr_e[i][1] * ptr_e[i][1];
+        
+        rmsPerStereoPair[pair_index] += ptr_e[i][0] * ptr_e[i][0] + ptr_e[i][1] * ptr_e[i][1];
+        if( ((int)i+1) % points_per_image_pair == 0) {            
+            rmsPerStereoPair[pair_index] /= ((double)points_per_image_pair);
+            rmsPerStereoPair[pair_index] = sqrt(rmsPerStereoPair[pair_index]);
+            pair_index++;            
+        }
     }
 
     rms /= ((double)e.total() / 2.0);

@@ -2193,7 +2193,7 @@ optimization. It stays at the center or at a different location specified when C
 
     CV_EXPORTS_W double stereoCalibrateWithErrors(InputArrayOfArrays objectPoints, InputArrayOfArrays imagePoints1, InputArrayOfArrays imagePoints2,
                                   InputOutputArray K1, InputOutputArray D1, InputOutputArray K2, InputOutputArray D2, Size imageSize,
-                                  OutputArray R, OutputArray T, std::vector<double>& stdDevs, int flags = fisheye::CALIB_FIX_INTRINSIC,
+                                  OutputArray R, OutputArray T, std::vector<double>& stdDevs,  std::vector<double>& rmsPerStereoPair, int flags = fisheye::CALIB_FIX_INTRINSIC,
                                   TermCriteria criteria = TermCriteria(TermCriteria::COUNT + TermCriteria::EPS, 100, DBL_EPSILON));
 
 //! @} calib3d_fisheye
