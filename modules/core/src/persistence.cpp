@@ -48,7 +48,8 @@
 #include <string>
 #include <iterator>
 
-#define USE_ZLIB 1
+// #define USE_ZLIB 1
+#undef USE_ZLIB // Leo: we do not need persistence at all, and even less with zlib dependencies
 
 #if USE_ZLIB
 #  ifndef _LFS64_LARGEFILE
